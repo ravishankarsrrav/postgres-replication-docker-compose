@@ -1,0 +1,18 @@
+version: '3.1'
+services:
+  ms:
+    command: "-c 'config_file=/etc/postgresql/postgresql.conf'"
+    image: postgres:12
+    volumes:
+      - /mnt/dsk/data-01/staging/postgres/master:/var/lib/postgresql/data
+      - ./postgres-master.conf:/etc/postgresql/postgresql.conf
+      - ./setup-node.sh:/docker-entrypoint-initdb.d/setup-node.sh
+    restart: always
+    ports:
+      - 4000:5432
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: rav
+      ROLE: master
+      PG_REP_USER: replicator
+      PG_REP_PASSWORD: password
